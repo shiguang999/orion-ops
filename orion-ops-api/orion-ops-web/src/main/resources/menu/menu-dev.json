@@ -5,76 +5,6 @@
     "icon": "dashboard"
   },
   {
-    "name": "机器管理",
-    "icon": "desktop",
-    "children": [
-      {
-        "name": "机器列表",
-        "path": "/machine/list"
-      },
-      {
-        "name": "机器秘钥",
-        "path": "/machine/key"
-      },
-      {
-        "name": "机器监控",
-        "path": "/machine/monitor/list"
-      },
-      {
-        "name": "环境变量",
-        "path": "/machine/env"
-      },
-      {
-        "name": "机器代理",
-        "path": "/machine/proxy"
-      },
-      {
-        "name": "终端日志",
-        "path": "/terminal/logs"
-      }
-    ]
-  },
-  {
-    "name": "执行管理",
-    "icon": "apartment",
-    "children": [
-      {
-        "name": "批量执行",
-        "path": "/batch/exec/add"
-      },
-      {
-        "name": "执行记录",
-        "path": "/batch/exec/list"
-      },
-      {
-        "name": "批量上传",
-        "path": "/batch/upload"
-      },
-      {
-        "name": "日志面板",
-        "path": "/log/list"
-      }
-    ]
-  },
-  {
-    "name": "调度任务",
-    "icon": "schedule",
-    "children": [
-      {
-        "name": "任务列表",
-        "path": "/scheduler/list"
-      },
-      {
-        "name": "执行记录",
-        "path": "/scheduler/record"
-      },
-      {
-        "name": "执行统计",
-        "path": "/scheduler/statistics"
-      }
-    ]
-  },
-  {
     "name": "应用管理",
     "icon": "appstore",
     "children": [
@@ -117,10 +47,6 @@
         "path": "/app/build/statistics"
       },
       {
-        "name": "发布统计",
-        "path": "/app/release/statistics"
-      },
-      {
         "name": "流水线统计",
         "path": "/app/pipeline/statistics"
       }
@@ -131,40 +57,8 @@
     "icon": "user",
     "children": [
       {
-        "name": "用户列表",
-        "path": "/user/list"
-      },
-      {
-        "name": "报警联系组",
-        "path": "/alarm/group/list"
-      },
-      {
         "name": "个人信息",
         "path": "/user/detail"
-      }
-    ]
-  },
-  {
-    "name": "信息管理",
-    "icon": "container",
-    "children": [
-      {
-        "name": "模板配置",
-        "path": "/template/list"
-      },
-      {
-        "name": "webhook 配置",
-        "path": "/webhook/list"
-      }
-    ]
-  },
-  {
-    "name": "系统管理",
-    "icon": "control",
-    "children": [
-      {
-        "name": "系统变量",
-        "path": "/system/env"
       }
     ]
   }
