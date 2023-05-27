@@ -4,7 +4,7 @@
     <div class="statistics-top">
       <a-row>
         <template v-for="statisticItem of topStatistic">
-          <a :key="statisticItem.field"
+          <a v-if="('machineCount' == statisticItem.field ? $isAdmin() : true)" :key="statisticItem.field"
              :href="statisticItem.redirect"
              :title="statisticItem.redirectTitle">
             <a-col :span="6" :class="statisticItem.colClass">
@@ -25,7 +25,7 @@
     <!-- 中部统计 -->
     <div class="statistics-center">
       <!-- 快捷导航 -->
-      <div class="quick-router-container">
+      <div class="quick-router-container" v-if="$isAdmin()">
         <a-card class="gray-box-shadow" title="快捷导航" :bordered="false" style="width: 100%; height: 100%;">
           <!-- 快捷导航 -->
           <a-row>
