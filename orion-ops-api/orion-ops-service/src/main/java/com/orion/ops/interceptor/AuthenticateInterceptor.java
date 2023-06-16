@@ -13,6 +13,7 @@ import com.orion.ops.service.api.PassportService;
 import com.orion.ops.utils.Currents;
 import com.orion.ops.utils.UserHolder;
 import com.orion.web.servlet.web.Servlets;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -31,6 +32,12 @@ import java.io.IOException;
  */
 @Component
 public class AuthenticateInterceptor implements HandlerInterceptor {
+
+    @Value("${client.api.access.header}")
+    private String accessHeader;
+
+    @Value("${client.api.access.secret}")
+    private String accessSecret;
 
     @Resource
     private PassportService passportService;
@@ -66,6 +73,11 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
         }
         // 匿名接口直接返回
         if (ignore) {
+            return true;
+        }
+        // 客户免登录
+        final boolean access = accessSecret.equals(request.getHeader(accessHeader));
+        if (access) {
             return true;
         }
         // 驳回接口设置返回
