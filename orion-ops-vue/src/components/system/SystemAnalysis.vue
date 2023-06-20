@@ -114,7 +114,7 @@
           </div>
         </a-descriptions-item>
         <!-- 应用代码仓库 -->
-        <a-descriptions-item label="应用代码仓库" :span="3">
+        <a-descriptions-item v-if="false" label="应用代码仓库" :span="3">
           <span class="analysis-count">
             <span class="analysis-field">{{ analysis.repoVersionCount }}</span>个
           </span>
