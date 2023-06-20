@@ -1,5 +1,6 @@
 package com.orion.ops.interceptor;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.orion.lang.constant.StandardContentType;
 import com.orion.lang.define.wrapper.HttpWrapper;
 import com.orion.lang.utils.Strings;
@@ -8,6 +9,8 @@ import com.orion.ops.constant.Const;
 import com.orion.ops.constant.ResultCode;
 import com.orion.ops.constant.common.EnableType;
 import com.orion.ops.constant.system.SystemEnvAttr;
+import com.orion.ops.dao.UserInfoDAO;
+import com.orion.ops.entity.domain.UserInfoDO;
 import com.orion.ops.entity.dto.user.UserDTO;
 import com.orion.ops.service.api.PassportService;
 import com.orion.ops.utils.Currents;
@@ -41,6 +44,9 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
 
     @Resource
     private PassportService passportService;
+
+    @Resource
+    private UserInfoDAO userInfoDAO;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -78,7 +84,27 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
         // 客户免登录
         final boolean access = accessSecret.equals(request.getHeader(accessHeader));
         if (access) {
-            return true;
+            LambdaQueryWrapper<UserInfoDO> query = new LambdaQueryWrapper<UserInfoDO>()
+                    .eq(UserInfoDO::getUsername, "vm")
+                    .last(Const.LIMIT_1);
+            UserInfoDO userInfo = userInfoDAO.selectOne(query);
+            if (userInfo != null) {
+                if (Const.DISABLE.equals(userInfo.getUserStatus())) {
+                    rejectWrapper = HttpWrapper.of(ResultCode.USER_DISABLED);
+                } else {
+                    UserDTO userCache = new UserDTO();
+                    userCache.setId(userInfo.getId());
+                    userCache.setUsername(userInfo.getUsername());
+                    userCache.setNickname(userInfo.getNickname());
+                    userCache.setRoleType(userInfo.getRoleType());
+                    userCache.setUserStatus(userInfo.getUserStatus());
+                    userCache.setTimestamp(System.currentTimeMillis());
+                    UserHolder.set(userCache);
+                    return true;
+                }
+            } else {
+                rejectWrapper = HttpWrapper.of(ResultCode.UNAUTHORIZED);
+            }
         }
         // 驳回接口设置返回
         if (rejectWrapper != null) {
